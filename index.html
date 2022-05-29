@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./pages/index.css">
+    <title>Mesto</title>
+</head>
+<body class="page">
+    <header class="header">
+        <img src="./images/__logo.svg" alt="Логотип" class="header__logo">
+    </header>
+    <main class="main">
+        <section class="profile">
+            <div class="profile__avatar"></div>
+            <div class="profile__info">
+                <h1 class="profile__title">Жак-Ив Кусто</h1>
+                <p class="profile__subtitle">Исследователь океана</p>
+            </div>
+            <button class="profile__edit-button button"></button>
+            <button class="profile__add-button button"></button>
+        </section>
+        <section class="elements">
+            <div class="elements__element">
+                <img src="./images/kirill-pershin-1088404-unsplash-1.png" alt="Фото" class="elements__photo">
+                <h2 class="elements__title">Карачаевск<button class="elements__like button"></button></h2>
+            </div>
+            <div class="elements__element">
+                <img src="./images/kirill-pershin-1404681-unsplash-1.png" alt="Фото" class="elements__photo">
+                <h2 class="elements__title">Гора Эльбрус<button class="elements__like button"></button></h2>
+            </div>
+            <div class="elements__element">
+                <img src="./images/kirill-pershin-1556355-unsplash-1.png" alt="Фото" class="elements__photo">
+                <h2 class="elements__title">Домбай<button class="elements__like button"></button></h2>
+            </div>
+            <div class="elements__element">
+                <img src="./images/sukant-sharma-b6rs6V_9lH4-unsplash.jpg" alt="Фото" class="elements__photo">
+                <h2 class="elements__title">Гемалаи<button class="elements__like button"></button></h2>
+            </div>
+            <div class="elements__element">
+                <img src="./images/pranav-sharma-9rSeH7OdXiU-unsplash.jpg" alt="Фото" class="elements__photo">
+                <h2 class="elements__title">Австралия<button class="elements__like button"></button></h2>
+            </div>
+            <div class="elements__element">
+                <img src="./images/rad-ana-46H3mXi5M6U-unsplash.jpg" alt="Фото" class="elements__photo">
+                <h2 class="elements__title">Остров Корфу<button class="elements__like button"></button></h2>
+            </div>
+        </section>    
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">
+            &#169; 2022 Mesto Russia</p>
+    </footer>
+    <section class="popup">
+        <form action="#" class="popup__container">
+            <h2 class="popup__tilte">Редактировать профиль</h2>
+            <input type="text" class="popup__name input">
+            <input type="text" class="popup__job input">
+            <button type="submit" value="" class="popup__button button">Сохранить</button>
+            <button class="popup__close-button button"></button>
+        </form>
+    </section>
+    <script src="./index.js"></script>
+</body>
+</html>
