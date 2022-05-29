@@ -20,7 +20,7 @@
 
 @media screen and (max-width: 540px) {
     .elements {
-        margin: 0 5.9375vw 36px 5.9375vw ;
+        margin: 0 5.9375vw 36px 5.9375vw;
         row-gap: 20px;
     }
 }
