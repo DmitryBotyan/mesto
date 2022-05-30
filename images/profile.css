@@ -1,10 +1,14 @@
 .profile {
     display: flex;
+    max-width: 880px;
+    min-height: 120px;
     margin: 0 200px 50px 200px;
 }
 
 @media screen and (max-width: 1128px) {
     .profile {
+        max-width: 68.75vw;
+        min-height: 9.375vw;
         margin: 0 15.625vw 3.90625vw 15.625vw;
     }
 }
@@ -12,12 +16,17 @@
 @media screen and (max-width: 950px) {
     .profile {
         flex-direction: column;
-        margin: 0 11.875vw 0 20.3125vw;
     }
 }
 
 @media screen and (max-width: 950px) {
     .profile {
+        max-width: 100%;
         margin: 0 5.9375vw 36px 5.9375vw;
     }
 }
+
+
+/** {
+    border: 1px solid red;
+}*/

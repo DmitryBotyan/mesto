@@ -14,6 +14,12 @@ closeBtn.addEventListener("click", function popupClose() {
   popup.classList.remove("popup_opened");
 });
 
+let submitBtn = document.querySelector('.popup__button')
+
+submitBtn.addEventListener("click", function popupClose() {
+  popup.classList.remove("popup_opened");
+});
+
 let formElement = document.querySelector(".popup__container");
 
 let nameInput = formElement.querySelector(".popup__name");

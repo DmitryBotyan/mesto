@@ -7,8 +7,8 @@
     font-size: 24px;
     line-height: 29px;
     color: #000000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 241px;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

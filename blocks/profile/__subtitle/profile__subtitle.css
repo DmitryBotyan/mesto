@@ -8,10 +8,15 @@
     line-height: 22px;
     color: #FFFFFF;
     margin-top: 7px;
+    max-width: 325px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 950px) {
     .profile__subtitle {
+        margin: 0 auto;
         margin-top: 14px;
     }
 }
@@ -20,5 +25,7 @@
     .profile__subtitle {
         font-size: 4.375vw;
         line-height: 5.3125vw;
+        max-width: 275px;
+
     }
 }
