@@ -1,7 +1,5 @@
 let editBtn = document.querySelector(".profile__edit-button");
 
-console.log(editBtn);
-
 let popup = document.querySelector(".popup");
 
 editBtn.addEventListener("click", function popupOpen() {

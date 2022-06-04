@@ -1,6 +1,5 @@
 .header {
     display: flex;
-    justify-content: left;
     border-bottom: 1px solid rgba(84, 84, 84, 1);
     margin: 45px 200px 40px 200px;
     max-width: 880px;

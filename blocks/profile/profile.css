@@ -5,6 +5,7 @@
 
 @media screen and (max-width: 1128px) {
     .profile {
+        padding-top: 3.125vw;
         margin: 0 15.625vw 3.90625vw 15.625vw;
     }
 }

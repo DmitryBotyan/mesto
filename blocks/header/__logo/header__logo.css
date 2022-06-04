@@ -8,5 +8,11 @@
         margin-left: 3.515625vw;
         margin-bottom: 3.90625vw;
     }
-    
+}
+
+@media screen and (max-width: 450px) {
+    .header__logo {
+        width: 31.25vw;
+        height: 7.8125vw;
+    }
 }
