@@ -1,4 +1,5 @@
 .profile__edit-button {
+    padding: 0;
     background-color: black;
     background-image: url(../../../images/pencil-min.svg);
     background-repeat: no-repeat;

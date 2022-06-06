@@ -1,24 +1,27 @@
 .profile {
     display: flex;
-    margin: 0 200px 50px 200px;
+    margin: 0 200px;
+    padding-top: 40px;
+    padding-bottom: 50px;
 }
 
 @media screen and (max-width: 1128px) {
     .profile {
         padding-top: 3.125vw;
-        margin: 0 15.625vw 3.90625vw 15.625vw;
+        margin: 0 15.625vw;
     }
 }
 
 @media screen and (max-width: 950px) {
     .profile {
         flex-direction: column;
-        margin: 0 11.875vw 0 20.3125vw;
+        margin: 0;
     }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 540px) {
     .profile {
-        margin: 0 5.9375vw 36px 5.9375vw;
+        margin: 0 5.9375vw;
+        padding-top: 42px;
     }
 }

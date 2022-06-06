@@ -26,3 +26,9 @@
         max-width: 275px;
     } 
 }
+
+@media screen and (max-width: 450px) {
+    .profile__title {
+        max-width: 189px;
+    }
+}

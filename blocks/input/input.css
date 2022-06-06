@@ -1,7 +1,6 @@
 .input {
     width: 358px;
-    height: 27px;
-    margin: 0 36px;
+    padding-bottom: 10px;
     border: none;
     border-bottom: 1px solid rgba(204, 204, 204, 1);
     font-family: 'Inter', sans-serif;
@@ -15,7 +14,5 @@
 @media screen and (max-width: 455px) {
     .input {
         width: 238px;
-        height: 27px;
-        margin: 0 22px;
     }
 }
