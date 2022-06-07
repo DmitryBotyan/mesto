@@ -1,6 +1,7 @@
 .profile {
     display: flex;
-    margin: 0 200px;
+    margin: 0 auto;
+    max-width: 880px;
     padding-top: 40px;
     padding-bottom: 50px;
 }
@@ -8,20 +9,19 @@
 @media screen and (max-width: 1128px) {
     .profile {
         padding-top: 3.125vw;
-        margin: 0 15.625vw;
+        max-width: 68.75vw;
     }
 }
 
 @media screen and (max-width: 950px) {
     .profile {
         flex-direction: column;
-        margin: 0;
     }
 }
 
 @media screen and (max-width: 540px) {
     .profile {
-        margin: 0 5.9375vw;
         padding-top: 42px;
+        max-width: 100%;
     }
 }
