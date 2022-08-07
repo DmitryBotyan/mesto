@@ -41,7 +41,7 @@ function popupZoomClose() {
   popupZoom.classList.remove('popup_opened');
 }
 function formSubmitHandler(event) {
-  evt.preventDefault();
+  event.preventDefault();
   const name = document.querySelector(".profile__title");
   const job = document.querySelector(".profile__subtitle");
   name.textContent = nameInput.value;
@@ -92,6 +92,7 @@ function createCard() {
     popupZoomOpen()
   };
   img.addEventListener('click', imageZoom);
+  console.log(initialCards)
 };
 
 editBtn.addEventListener("click", popupEditOpen);
