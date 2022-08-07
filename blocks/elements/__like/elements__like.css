@@ -10,7 +10,3 @@
     height: 19px;
 
 }
-
-.elements__like:active {
-    background-image: url(../../../images/Union-min.svg);
-}

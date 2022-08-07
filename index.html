@@ -24,49 +24,43 @@
             <button class="profile__add-button button" type="button"></button>
         </section>
         <section class="elements">
-            <div class="elements__element">
-                <img src="./images/kirill-pershin-1088404-unsplash-1.png" alt="Карачаевск" class="elements__photo">
-                <h2 class="elements__title">Карачаевск</h2>
-                <button class="elements__like button" type="button"></button>
-            </div>
-            <div class="elements__element">
-                <img src="./images/kirill-pershin-1404681-unsplash-1.png" alt="Гора Эльбрус" class="elements__photo">
-                <h2 class="elements__title">Гора Эльбрус</h2>
-                <button class="elements__like button" type="button"></button>
-            </div>
-            <div class="elements__element">
-                <img src="./images/kirill-pershin-1556355-unsplash-1.png" alt="Домбай" class="elements__photo">
-                <h2 class="elements__title">Домбай</h2>
-                <button class="elements__like button" type="button"></button>
-            </div>
-            <div class="elements__element">
-                <img src="./images/sukant-sharma-b6rs6V_9lH4-unsplash.jpg" alt="Гемалаи" class="elements__photo">
-                <h2 class="elements__title">Гемалаи</h2>
-                <button class="elements__like button" type="button"></button>
-            </div>
-            <div class="elements__element">
-                <img src="./images/pranav-sharma-9rSeH7OdXiU-unsplash.jpg" alt="Австралия" class="elements__photo">
-                <h2 class="elements__title">Австралия</h2>
-                <button class="elements__like button" type="button"></button>
-            </div>
-            <div class="elements__element">
-                <img src="./images/rad-ana-46H3mXi5M6U-unsplash.jpg" alt="Остров Корфу" class="elements__photo">
-                <h2 class="elements__title">Остров Корфу</h2>
-                <button class="elements__like button" type="button"></button>
-            </div>
-        </section>    
+            <template id="card">
+                <div class="elements__element">
+                    <img src="./images/Group.svg" alt="Корзина" class="elements__delete button">
+                    <img src="" alt="" class="elements__photo" >
+                    <h2 class="elements__title"></h2>
+                    <button class="elements__like button" type="button"></button>      
+                </div>
+            </template>
+        </section>
     </main>
     <footer class="footer">
         <p class="footer__copyright">
             &#169; 2022 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_edit">
         <form action="#" class="popup__container">
             <h2 class="popup__tilte">Редактировать профиль</h2>
             <input type="text" class="popup__name input">
             <input type="text" class="popup__job input">
             <button type="submit" value="" class="popup__button button">Сохранить</button>
             <button class="popup__close-button button" type="button"></button>
+        </form>
+    </div>
+    <div class="popup popup_add">
+        <form action="#" class="popup__container">
+            <h2 class="popup__tilte popup__title_place">Новое место</h2>
+            <input type="text" class="popup__place input" placeholder="Название">
+            <input type="text" class="popup__link input" placeholder="Ссылка на картинку">
+            <button type="submit" value="" class="popup__button button">Создать</button>
+            <button class="popup__close-button button" type="button"></button>
+        </form>
+    </div>
+    <div class="popup popup_zoom">
+        <form action="#" class="popup__container-zoom">
+            <img src="#" alt="" class="popup__zoom-img">
+            <figcaption class="popup__img-caption"></figcaption>
+            <button class="popup__close-button popup__close-button-zoom button" type="button"></button>
         </form>
     </div>
     <script src="./scripts/index.js"></script>

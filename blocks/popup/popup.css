@@ -1,4 +1,5 @@
 .popup {
+    border: 1px solid green;
     position: fixed;
     display: none;
     justify-content: center;
