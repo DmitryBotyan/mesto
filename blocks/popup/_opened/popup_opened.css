@@ -1,3 +1,15 @@
+@keyframes visible {
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
 .popup_opened {
     display: flex;
+    animation: visible 0.25s linear;
 }
