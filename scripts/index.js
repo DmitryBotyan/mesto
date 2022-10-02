@@ -130,6 +130,11 @@ buttonSubmit.addEventListener('click', (event) => {
   popupClose(popupEdit)
 })
 
+popupEdit.addEventListener('submit', (event) => {
+  event.preventDefault()
+  popupClose(popupEdit)
+})
+
 buttonAdd.addEventListener("click", (event) => {
   popupOpen(popupAdd)
 });
