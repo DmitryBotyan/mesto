@@ -1,7 +1,7 @@
 const popupEditModalWindow = document.forms.edit;
 const popupAddModalWindow = document.forms.add;
 
-function isValidField(input) {
+function isValid(input) {
     const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
     errorSpan.textContent = input.validationMessage;
 };
@@ -20,7 +20,7 @@ function buttonIsActive(button, state) {
 function handleValidateInput(evt) {
     const currentForm = evt.currentTarget;
     const popupModalWindowSubmitButton = currentForm.querySelector('.button');
-    isValidField(evt.target);
+    isValid(evt.target);
     if (currentForm.checkValidity()) {
         buttonIsActive(popupModalWindowSubmitButton, true)
     }
@@ -28,6 +28,7 @@ function handleValidateInput(evt) {
         buttonIsActive(popupModalWindowSubmitButton, false)
     }
 };
+
 
 popupAddModalWindow.addEventListener('input', handleValidateInput);
 popupEditModalWindow.addEventListener('input', handleValidateInput);

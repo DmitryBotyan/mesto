@@ -19,6 +19,11 @@ const zoomImg = popupZoom.querySelector('.popup__zoom-img');
 const list = document.querySelector('.elements');
 const placeInput = document.querySelector('.popup__place')
 const linkInput = document.querySelector('.popup__link');
+const popupEditForm = popupEdit.querySelector('.popup__container');
+const overlay = popup.querySelector('.popup__overlay');
+const popupAddOverlay = popupAdd.querySelector('.popup__overlay_add');
+const popupEditOverlay = popupEdit.querySelector('.popup__overlay_edit');
+const popupZoomOverlay = popupZoom.querySelector('.popup__overlay_zoom');
 
 const initialCards = [
   {
@@ -55,6 +60,16 @@ function popupClose(popup) {
   popup.classList.remove("popup_opened");
 };
 
+function popupCloseEscapeButton(popup) {
+  popupClose(popup)
+}
+
+function keyFind(event, popup) {
+  if (event.key === 'Escape') {
+    popupCloseEscapeButton(popup)
+  }
+}
+
 function popupEditSaveValue() {
   nameInput.value = userName.textContent; 
   jobInput.value = userjob.textContent; 
@@ -66,12 +81,19 @@ function formSubmitHandler(event) {
   userjob.textContent = jobInput.value;
 };
 
+function overlayClickClose(overlay, popup) {
+  overlay.addEventListener('click', (event) => {
+    popupClose(popup)
+  })
+};
+
 function createCard(data) {
   const template = document.querySelector('#card').content;
   const card = template.cloneNode(true);
   const cardTitle = card.querySelector('.elements__title');
   const img = card.querySelector('.elements__photo');
   const buttonDelete = card.querySelector('.elements__delete');
+
   const like = card.querySelector('.elements__like');
 
   img.src = data.link;
@@ -80,9 +102,7 @@ function createCard(data) {
 
   function addEventListeners() {
     buttonDelete.addEventListener('click', (event) => {
-      const eventTarget = event.target;
-      const cardItem = eventTarget.closest('.elements__element');
-      cardItem.remove();
+      list.remove(card)
     });
   
     like.addEventListener('click', (event) => {
@@ -103,7 +123,9 @@ function createCard(data) {
 };
 
 function renderCard(data) {  
-  const newCard = createCard(data)  
+  placeInput.value = '';
+  linkInput.value = '';
+  const newCard = createCard(data);
   list.prepend(newCard);
 };
 
@@ -115,7 +137,7 @@ popupAdd.addEventListener('submit', (event) => {
     name: placeInput.value,
     link: linkInput.value
   })
-})
+});
 
 buttonEditProfile.addEventListener('click', (event) => {
   popupOpen(popupEdit)
@@ -130,7 +152,7 @@ buttonSubmit.addEventListener('click', (event) => {
   popupClose(popupEdit)
 })
 
-popupEdit.addEventListener('submit', (event) => {
+popupEditForm.addEventListener('submit', (event) => {
   event.preventDefault()
   popupClose(popupEdit)
 })
@@ -152,3 +174,15 @@ buttonClosePopupZoom.addEventListener("click", (event) => {
 });
 
 formElement.addEventListener("click", formSubmitHandler);
+
+overlayClickClose(popupAddOverlay, popupAdd);
+
+overlayClickClose(popupEditOverlay, popupEdit);
+
+overlayClickClose(popupZoomOverlay, popupZoom);
+
+document.addEventListener("keydown", (event) => {
+  keyFind(event, popupAdd);
+  keyFind(event, popupEdit);
+  keyFind(event, popupZoom);
+});

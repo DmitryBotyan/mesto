@@ -39,6 +39,7 @@
             &#169; 2022 Mesto Russia</p>
     </footer>
     <div class="popup popup_edit">
+        <div class="popup__overlay popup__overlay_edit"></div>
         <form action="#" class="popup__container" name="edit" novalidate>
             <h2 class="popup__tilte">Редактировать профиль</h2>
             <input type="text" class="popup__name input" minlength="2" maxlength="40" required id="name">
@@ -50,6 +51,7 @@
         </form>
     </div>
     <div class="popup popup_add">
+        <div class="popup__overlay popup__overlay_add"></div>
         <form action="#" class="popup__container" name="add" novalidate>
             <h2 class="popup__tilte popup__title-place">Новое место</h2>
             <input type="text" class="popup__place input" placeholder="Название" id="place" minlength="2" maxlength="30" required>
@@ -61,6 +63,7 @@
         </form>
     </div>
     <div class="popup popup_zoom">
+        <div class="popup__overlay popup__overlay_zoom"></div>
         <form action="#" class="popup__container-zoom">
             <img src="#" alt="" class="popup__zoom-img">
             <figcaption class="popup__img-caption"></figcaption>
