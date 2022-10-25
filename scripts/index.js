@@ -60,7 +60,7 @@ function keyFind(event) {
     const popupIsOpened = document.querySelector('.popup_opened');
     popupIsOpened.classList.remove('popup_opened');
   }
-}
+};
 
 function openPopup(popup) {
   placeInput.value = '';
@@ -164,6 +164,8 @@ popupEditForm.addEventListener('submit', (event) => {
 });
 
 buttonAdd.addEventListener("click", (event) => {
+  buttonSubmitPopupAdd.classList.add('popup__button_disabled');
+  buttonSubmitPopupAdd.disabled = true;
   openPopup(popupAdd);
 });
 
