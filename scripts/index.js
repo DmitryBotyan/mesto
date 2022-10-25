@@ -85,8 +85,7 @@ function popupEditSaveValue() {
 
 function formSubmitHandler(event) {
   event.preventDefault();
-  userName.textContent = nameInput.value;
-  userjob.textContent = jobInput.value;
+
 };
 
 function overlayClickClose(popup) {
@@ -160,6 +159,8 @@ buttonClosePopup.addEventListener("click", (event) => {
 
 popupEditForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  userName.textContent = nameInput.value;
+  userjob.textContent = jobInput.value;
   closePopup(popupEdit);
 });
 
