@@ -12,4 +12,4 @@
 .popup_opened {
     display: flex;
     animation: visible 0.25s linear;
-};
+}
