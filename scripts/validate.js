@@ -1,34 +1,68 @@
-const popupEditModalWindow = document.forms.edit;
-const popupAddModalWindow = document.forms.add;
-
-function isValid(input) {
-    const errorSpan = input.parentNode.querySelector(`#${input.id}-error`);
-    errorSpan.textContent = input.validationMessage;
+const showInputError = (formElement, inputElement, errorMessage, {errorClass, inputErrorClass}) => {
+    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+    inputElement.classList.add(inputErrorClass);
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add(errorClass);
 };
 
-function buttonIsActive(button, state) {
-    if (state) {
-        button.classList.remove('popup__button_disabled');
-        button.removeAttribute('disabled');
+const hideInputError = (formElement, inputElement, {errorClass, inputErrorClass}) => {
+    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+    inputElement.classList.remove(inputErrorClass);
+    errorElement.classList.remove(errorClass);
+    errorElement.textContent = '';
+};
+
+const checkValidity = (formElement, inputElement, enums) => {
+    if (!inputElement.validity.valid) {
+        showInputError(formElement, inputElement, inputElement.validationMessage, enums)
     }
     else {
-        button.classList.add('popup__button_disabled');
-        button.setAttribute('disabled');
+        hideInputError(formElement, inputElement, enums)
     }
 };
 
-function handleValidateInput(evt) {
-    const currentForm = evt.currentTarget;
-    const popupModalWindowSubmitButton = currentForm.querySelector('.button');
-    isValid(evt.target);
-    if (currentForm.checkValidity()) {
-        buttonIsActive(popupModalWindowSubmitButton, true)
-    }
-    else {popupModalWindowSubmitButton
-        buttonIsActive(popupModalWindowSubmitButton, false)
-    }
+const hasInvalidInput = (inputList) => {
+    return inputList.some((inputElement) => {
+        return !inputElement.validity.valid;
+  });
+}
+
+const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
+    if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(inactiveButtonClass);
+    buttonElement.disabled = true;
+  } 
+    else {
+    buttonElement.classList.remove(inactiveButtonClass);
+    buttonElement.disabled = false;
+  } 
 };
 
+const setEventListeners = (formElement, {inputSelector, submitButtonSelector, inactiveButtonClass, ...rest}) => {
+    const inputList = Array.from(formElement.querySelectorAll(inputSelector));
+    const buttonElement = formElement.querySelector(submitButtonSelector);
 
-popupAddModalWindow.addEventListener('input', handleValidateInput);
-popupEditModalWindow.addEventListener('input', handleValidateInput);
+    inputList.forEach((inputElement) => {
+        inputElement.addEventListener('input', function () {
+        checkValidity(formElement, inputElement, rest);
+        toggleButtonState(inputList, buttonElement, inactiveButtonClass);
+        });
+    });
+};
+
+const enableValidation = ({formSelector, ...rest}) => {
+    const formList = Array.from(document.querySelectorAll(formSelector))
+
+    formList.forEach((formElement) => {
+        setEventListeners(formElement, rest)
+    })
+};
+
+enableValidation({
+    formSelector: '.popup__container',
+    inputSelector: '.input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'input_type_error',
+    errorClass: 'popup__error-text_visible'
+});

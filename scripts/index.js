@@ -4,7 +4,7 @@ const popupEdit = document.querySelector(".popup_edit");
 const popupAdd = document.querySelector('.popup_add');
 const popupZoom = document.querySelector('.popup_zoom');
 const buttonClosePopup = popupEdit.querySelector(".popup__close-button");
-const buttonClosePopupAdd = popupAdd.querySelector(".popup__close-button")
+const buttonClosePopupAdd = popupAdd.querySelector(".popup__close-button");
 const buttonClosePopupZoom = popupZoom.querySelector('.popup__close-button');
 const buttonSubmit = document.querySelector('.popup__button');
 const buttonSubmitPopupAdd = popupAdd.querySelector('.popup__button');
@@ -17,13 +17,16 @@ const buttonAdd = document.querySelector('.profile__add-button');
 const imgCaption = popupZoom.querySelector('.popup__img-caption');
 const zoomImg = popupZoom.querySelector('.popup__zoom-img');
 const list = document.querySelector('.elements');
-const placeInput = document.querySelector('.popup__place')
+const placeInput = document.querySelector('.popup__place');
 const linkInput = document.querySelector('.popup__link');
 const popupEditForm = popupEdit.querySelector('.popup__container');
 const overlay = popup.querySelector('.popup__overlay');
 const popupAddOverlay = popupAdd.querySelector('.popup__overlay_add');
 const popupEditOverlay = popupEdit.querySelector('.popup__overlay_edit');
 const popupZoomOverlay = popupZoom.querySelector('.popup__overlay_zoom');
+const template = document.querySelector('#card').content;
+const popupNodeList = document.querySelectorAll('.popup');
+const popupArray = Array.from(popupNodeList);
 
 const initialCards = [
   {
@@ -52,23 +55,28 @@ const initialCards = [
   }
 ];
 
-function popupOpen(popup) {
-  popup.classList.add("popup_opened");
-};
-
-function popupClose(popup) {
-  popup.classList.remove("popup_opened");
-};
-
-function popupCloseEscapeButton(popup) {
-  popupClose(popup)
-}
-
-function keyFind(event, popup) {
+function keyFind(event) {
   if (event.key === 'Escape') {
-    popupCloseEscapeButton(popup)
+    const popupIsOpened = document.querySelector('.popup_opened');
+    popupIsOpened.classList.remove('popup_opened');
   }
 }
+
+function openPopup(popup) {
+  placeInput.value = '';
+  linkInput.value = '';
+  popup.classList.add("popup_opened");
+  document.addEventListener("keydown", (event) => {
+    keyFind(event);
+  });
+};
+
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", (event) => {
+    keyFind(event);
+  });
+};
 
 function popupEditSaveValue() {
   nameInput.value = userName.textContent; 
@@ -81,50 +89,51 @@ function formSubmitHandler(event) {
   userjob.textContent = jobInput.value;
 };
 
-function overlayClickClose(overlay, popup) {
-  overlay.addEventListener('click', (event) => {
-    popupClose(popup)
+function overlayClickClose(popup) {
+  popup.addEventListener('click', (event) => {
+    const popupContainer = event.currentTarget
+    if (event.target === popupContainer) {
+      closePopup(popup)
+    }
   })
 };
 
+popupArray.forEach((popup) => {
+  overlayClickClose(popup);
+});
+
 function createCard(data) {
-  const template = document.querySelector('#card').content;
   const card = template.cloneNode(true);
   const cardTitle = card.querySelector('.elements__title');
   const img = card.querySelector('.elements__photo');
   const buttonDelete = card.querySelector('.elements__delete');
-
   const like = card.querySelector('.elements__like');
-
+  
   img.src = data.link;
   img.alt = data.name;
   cardTitle.textContent = data.name;
-
-  function addEventListeners() {
-    buttonDelete.addEventListener('click', (event) => {
-      list.remove(card)
-    });
   
-    like.addEventListener('click', (event) => {
-      like.classList.toggle('elements__like_active')
-    });
+  buttonDelete.addEventListener('click', (event) => {
+    const eventTarget = event.target; 
+    const cardItem = eventTarget.closest('.elements__element'); 
+    cardItem.remove(); 
+  });
   
-    img.addEventListener('click', (event) => {
-      zoomImg.src = event.target.src;
-      zoomImg.alt = event.target.alt;
-      imgCaption.textContent = event.target.alt;
-      popupOpen(popupZoom)
-    });
-  };
-
-  addEventListeners()
+  like.addEventListener('click', (event) => {
+    like.classList.toggle('elements__like_active')
+  });
+  
+  img.addEventListener('click', (event) => {
+    zoomImg.src = event.target.src;
+    zoomImg.alt = event.target.alt;
+    imgCaption.textContent = event.target.alt;
+    openPopup(popupZoom)
+  });
 
   return card
 };
 
 function renderCard(data) {  
-  placeInput.value = '';
-  linkInput.value = '';
   const newCard = createCard(data);
   list.prepend(newCard);
 };
@@ -132,57 +141,38 @@ function renderCard(data) {
 initialCards.forEach(renderCard);
 
 popupAdd.addEventListener('submit', (event) => {
-  event.preventDefault()
+  event.preventDefault();
   renderCard({
     name: placeInput.value,
     link: linkInput.value
-  })
+  });
+  closePopup(popupAdd)
 });
 
 buttonEditProfile.addEventListener('click', (event) => {
-  popupOpen(popupEdit)
-  popupEditSaveValue()
+  openPopup(popupEdit);
+  popupEditSaveValue();
 });
 
 buttonClosePopup.addEventListener("click", (event) => {
-  popupClose(popupEdit)
+  closePopup(popupEdit);
 });
 
-buttonSubmit.addEventListener('click', (event) => {
-  popupClose(popupEdit)
-})
-
 popupEditForm.addEventListener('submit', (event) => {
-  event.preventDefault()
-  popupClose(popupEdit)
-})
+  event.preventDefault();
+  closePopup(popupEdit);
+});
 
 buttonAdd.addEventListener("click", (event) => {
-  popupOpen(popupAdd)
+  openPopup(popupAdd);
 });
 
 buttonClosePopupAdd.addEventListener("click", (event) => {
-  popupClose(popupAdd)
-});
-
-buttonSubmitPopupAdd.addEventListener("click", (event) => {
-  popupClose(popupAdd)
+  closePopup(popupAdd);
 });
 
 buttonClosePopupZoom.addEventListener("click", (event) => {
-  popupClose(popupZoom)
+  closePopup(popupZoom);
 });
 
-formElement.addEventListener("click", formSubmitHandler);
-
-overlayClickClose(popupAddOverlay, popupAdd);
-
-overlayClickClose(popupEditOverlay, popupEdit);
-
-overlayClickClose(popupZoomOverlay, popupZoom);
-
-document.addEventListener("keydown", (event) => {
-  keyFind(event, popupAdd);
-  keyFind(event, popupEdit);
-  keyFind(event, popupZoom);
-});
+formElement.addEventListener("submit", formSubmitHandler);

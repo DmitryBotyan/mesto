@@ -32,7 +32,7 @@
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 
 @import url(../blocks/input/input.css);
-@import url(../blocks/input/_error/input_error.css);
+@import url(../blocks/input/_type/input_type_error.css);
 
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/__error-text/popup__error-text.css);
@@ -55,4 +55,3 @@
 @import url(../blocks/popup/__close-button-zoom/popup__close-button-zoom.css);
 @import url(../blocks/popup/__img-caption/popup__img-caption.css);
 @import url(../blocks/popup/__button/_disabled/popup__button_disabled.css);
-@import url(../blocks/popup/__overlay/popup__overlay.css);
