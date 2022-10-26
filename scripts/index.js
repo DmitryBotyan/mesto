@@ -8,7 +8,6 @@ const buttonClosePopupAdd = popupAdd.querySelector(".popup__close-button");
 const buttonClosePopupZoom = popupZoom.querySelector('.popup__close-button');
 const buttonSubmit = document.querySelector('.popup__button');
 const buttonSubmitPopupAdd = popupAdd.querySelector('.popup__button');
-const formElement = document.querySelector(".popup__container");
 const nameInput = document.querySelector('.popup__name');
 const jobInput = document.querySelector('.popup__job');
 const userName = document.querySelector(".profile__title");
@@ -63,20 +62,14 @@ function keyFind(event) {
 };
 
 function openPopup(popup) {
-  placeInput.value = '';
-  linkInput.value = '';
   popup.classList.add("popup_opened");
-  document.addEventListener("keydown", (event) => {
-    keyFind(event);
-  });
-};
+  document.addEventListener("keydown", keyFind);
+}
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", (event) => {
-    keyFind(event);
-  });
-};
+  document.removeEventListener("keydown", keyFind);
+}
 
 function popupEditSaveValue() {
   nameInput.value = userName.textContent; 
@@ -166,6 +159,8 @@ popupEditForm.addEventListener('submit', (event) => {
 
 buttonAdd.addEventListener("click", (event) => {
   buttonSubmitPopupAdd.classList.add('popup__button_disabled');
+  placeInput.value = '';
+  linkInput.value = '';
   buttonSubmitPopupAdd.disabled = true;
   openPopup(popupAdd);
 });
