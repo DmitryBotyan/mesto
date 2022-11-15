@@ -39,36 +39,34 @@
             &#169; 2022 Mesto Russia</p>
     </footer>
     <div class="popup popup_edit">
-        <form action="#" class="popup__container" name="edit" novalidate>
+        <form class="popup__container" name="edit" novalidate>
             <h2 class="popup__tilte">Редактировать профиль</h2>
-            <input type="text" class="popup__name input" minlength="2" maxlength="40" required id="name">
+            <input type="text" class="popup__name input" placeholder="Имя" minlength="2" maxlength="40" required id="name">
             <span class="popup__error-text_name popup__error-text" id="name-error"></span>         
-            <input type="text" class="popup__job input" minlength="2" maxlength="200" required id="job">
+            <input type="text" class="popup__job input" placeholder="О себе" minlength="2" maxlength="200" required id="job">
             <span class="popup__error-text_job popup__error-text " id="job-error"></span>
-            <button type="submit" value="" class="popup__button button">Сохранить</button>
+            <button type="submit" class="popup__button button">Сохранить</button>
             <button class="popup__close-button button" type="button"></button>
         </form>
     </div>
     <div class="popup popup_add">
-        <form action="#" class="popup__container" name="add" novalidate>
+        <form class="popup__container" name="add" novalidate>
             <h2 class="popup__tilte popup__title-place">Новое место</h2>
             <input type="text" class="popup__place input" placeholder="Название" id="place" minlength="2" maxlength="30" required>
             <span class="popup__error-text_name popup__error-text" id="place-error"></span> 
             <input type="url" class="popup__link input" placeholder="Ссылка на картинку" id="link" required>
             <span class="popup__error-text_job popup__error-text" id="link-error"></span> 
-            <button type="submit" value="" class="popup__button button">Создать</button>
+            <button type="submit" class="popup__button button">Создать</button>
             <button class="popup__close-button button" type="button"></button>
         </form>
     </div>
     <div class="popup popup_zoom">
-        <form action="#" class="popup__container-zoom">
+        <form class="popup__container-zoom">
             <img src="#" alt="" class="popup__zoom-img">
             <figcaption class="popup__img-caption"></figcaption>
             <button class="popup__close-button popup__close-button-zoom button" type="button"></button>
         </form>
     </div>
     <script src="./scripts/index.js" type="module"></script>
-    <script src="./scripts/FormValidator.js"></script>
-    <script src="./scripts/Card.js"></script>
 </body>
 </html>

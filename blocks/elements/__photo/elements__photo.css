@@ -6,4 +6,6 @@
     border-bottom-right-radius: 0px;
     object-fit: cover;
     cursor: pointer;
+    background-color: black;
+    color: white;
 }

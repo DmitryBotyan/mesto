@@ -1,11 +1,16 @@
+import { FormValidator } from "./FormValidator.js";
+import { initialCards } from "./initialCards.js";
+import { Card } from "./Card.js"
+
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const popupEdit = document.querySelector(".popup_edit");
 const popupAdd = document.querySelector('.popup_add');
 export const popupZoom = document.querySelector('.popup_zoom');
-const buttonClosePopup = popupEdit.querySelector(".popup__close-button");
+const buttonClosePopupEdit = popupEdit.querySelector(".popup__close-button");
 const buttonClosePopupAdd = popupAdd.querySelector(".popup__close-button");
 const buttonClosePopupZoom = popupZoom.querySelector('.popup__close-button');
 const buttonSubmitPopupAdd = popupAdd.querySelector('.popup__button');
+/*const buttonSubmitPopupEdit = popupEdit.querySelector('.popup__button');*/
 const nameInput = document.querySelector('.popup__name');
 const jobInput = document.querySelector('.popup__job');
 const userName = document.querySelector(".profile__title");
@@ -14,54 +19,26 @@ const buttonAdd = document.querySelector('.profile__add-button');
 const placeInput = document.querySelector('.popup__place');
 const linkInput = document.querySelector('.popup__link');
 const popupEditForm = popupEdit.querySelector('.popup__container');
-const popupNodeList = document.querySelectorAll('.popup');
-const popupArray = Array.from(popupNodeList);
+const popups = document.querySelectorAll('.popup');
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-function keyFind(event) {
+function closePopupByEscKeyPress(event) {
   if (event.key === 'Escape') {
-    const popupIsOpened = document.querySelector('.popup_opened');
-    popupIsOpened.classList.remove('popup_opened');
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup)
   }
 };
 
-export default function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add("popup_opened");
-  document.addEventListener("keydown", keyFind);
+  document.addEventListener("keydown", closePopupByEscKeyPress);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", keyFind);
+  document.removeEventListener("keydown", closePopupByEscKeyPress);
 }
 
-function overlayClickClose(popup) {
+function overlayClickCloseInitialization(popup) {
   popup.addEventListener('click', (event) => {
     const popupContainer = event.currentTarget
     if (event.target === popupContainer) {
@@ -70,8 +47,8 @@ function overlayClickClose(popup) {
   })
 };
 
-popupArray.forEach((popup) => {
-  overlayClickClose(popup);
+popups.forEach((popup) => {
+  overlayClickCloseInitialization(popup);
 });
 
 buttonEditProfile.addEventListener('click', (event) => {
@@ -80,7 +57,7 @@ buttonEditProfile.addEventListener('click', (event) => {
   jobInput.value = userjob.textContent; 
 });
 
-buttonClosePopup.addEventListener("click", (event) => {
+buttonClosePopupEdit.addEventListener("click", (event) => {
   closePopup(popupEdit);
 });
 
@@ -107,10 +84,8 @@ buttonClosePopupZoom.addEventListener("click", (event) => {
   closePopup(popupZoom);
 });
 
-import Card from "./Card.js"
-
 initialCards.forEach((item) => {
-  const card = new Card(item.name, item.link);
+  const card = new Card(item.name, item.link, '#card');
   const cardElement = card.generateCard();
   document.querySelector('.elements').append(cardElement);
 });
@@ -118,7 +93,7 @@ initialCards.forEach((item) => {
 function addCard() {
   const placeInput = document.querySelector('.popup__place');
   const linkInput = document.querySelector('.popup__link');
-  const newCard = new Card(placeInput.value, linkInput.value);
+  const newCard = new Card(placeInput.value, linkInput.value, '#card');
   const newCardElement = newCard.generateCard();
   document.querySelector('.elements').prepend(newCardElement);
 };
@@ -128,8 +103,6 @@ popupAdd.addEventListener('submit', (event) => {
   closePopup(popupAdd)
   addCard()
 });
-
-import FormValidator from "./FormValidator.js";
 
 const settings = {
     inputSelector: '.input',
