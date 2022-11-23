@@ -5,12 +5,11 @@ import { Card } from "./Card.js"
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const popupEdit = document.querySelector(".popup_edit");
 const popupAdd = document.querySelector('.popup_add');
-export const popupZoom = document.querySelector('.popup_zoom');
+const popupZoom = document.querySelector('.popup_zoom');
 const buttonClosePopupEdit = popupEdit.querySelector(".popup__close-button");
 const buttonClosePopupAdd = popupAdd.querySelector(".popup__close-button");
 const buttonClosePopupZoom = popupZoom.querySelector('.popup__close-button');
 const buttonSubmitPopupAdd = popupAdd.querySelector('.popup__button');
-/*const buttonSubmitPopupEdit = popupEdit.querySelector('.popup__button');*/
 const nameInput = document.querySelector('.popup__name');
 const jobInput = document.querySelector('.popup__job');
 const userName = document.querySelector(".profile__title");
@@ -47,6 +46,18 @@ function overlayClickCloseInitialization(popup) {
   })
 };
 
+function buttonDisable(toggleButton) {
+  const validationPopupAdd = new FormValidator(settings, popupAdd);
+  validationPopupAdd.toggleButtonDisable(toggleButton)
+}
+
+function createCard(name, link, templateSelector, handleOpenPopup) {
+  const card = new Card(name, link, templateSelector, handleOpenPopup);
+  const cardElement = card.generateCard();
+  return cardElement;
+}
+
+
 popups.forEach((popup) => {
   overlayClickCloseInitialization(popup);
 });
@@ -69,10 +80,9 @@ popupEditForm.addEventListener('submit', (event) => {
 });
 
 buttonAdd.addEventListener("click", (event) => {
-  buttonSubmitPopupAdd.classList.add('popup__button_disabled');
+  buttonDisable(buttonSubmitPopupAdd)
   placeInput.value = '';
   linkInput.value = '';
-  buttonSubmitPopupAdd.disabled = true;
   openPopup(popupAdd);
 });
 
@@ -84,18 +94,20 @@ buttonClosePopupZoom.addEventListener("click", (event) => {
   closePopup(popupZoom);
 });
 
+const handleOpenPopup = () => {
+  openPopup(popupZoom)
+}
+
 initialCards.forEach((item) => {
-  const card = new Card(item.name, item.link, '#card');
-  const cardElement = card.generateCard();
-  document.querySelector('.elements').append(cardElement);
+  const renderedCard = createCard(item.name, item.link, '#card', handleOpenPopup);
+  document.querySelector('.elements').append(renderedCard);
 });
 
 function addCard() {
   const placeInput = document.querySelector('.popup__place');
   const linkInput = document.querySelector('.popup__link');
-  const newCard = new Card(placeInput.value, linkInput.value, '#card');
-  const newCardElement = newCard.generateCard();
-  document.querySelector('.elements').prepend(newCardElement);
+  const renderedCard = createCard(placeInput.value, linkInput.value, '#card', handleOpenPopup);
+  document.querySelector('.elements').prepend(renderedCard);
 };
 
 popupAdd.addEventListener('submit', (event) => {

@@ -6,6 +6,8 @@ export class FormValidator {
         this._inactiveButtonClass = settings.inactiveButtonClass;
         this._inputErrorClass = settings.inputErrorClass;
         this._errorClass = settings.errorClass;
+        this._inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
+        this._buttonElement = formElement.querySelector(this._submitButtonSelector);
     }
 
     _showInputError(inputElement) {
@@ -31,14 +33,14 @@ export class FormValidator {
         }
     }
 
-    _hasInvalidInput(inputList) {
-        return inputList.some((inputElement) => {
+    _hasInvalidInput() {
+        return this._inputList.some((inputElement) => {
             return !inputElement.validity.valid
         })
     }
 
-    _toggleButtonState(inputList) {
-        if (this._hasInvalidInput(inputList)) {
+    _toggleButtonState() {
+        if (this._hasInvalidInput(this._inputList)) {
             this.toggleButtonDisable()
           } 
             else {
@@ -47,28 +49,25 @@ export class FormValidator {
     }
 
     toggleButtonDisable() {
-        this._buttonElement = this._element.querySelector(this._submitButtonSelector)
         this._buttonElement.classList.add(this._inactiveButtonClass);
         this._buttonElement.disabled = true;
     }
 
     _toggleButtonActive() {
-        this._buttonElement = this._element.querySelector(this._submitButtonSelector)
         this._buttonElement.classList.remove(this._inactiveButtonClass);
         this._buttonElement.disabled = false;
     }
 
-    _setEventListeners(formElement) {
-        const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-        inputList.forEach((inputElement) => {
+    _setEventListeners() {
+        this._inputList.forEach((inputElement) => {
             inputElement.addEventListener('input', () => {
                 this._toggleInputErrorState(inputElement);
-                this._toggleButtonState(inputList);
+                this._toggleButtonState(this._inputList);
             })
     })
     }
 
     enableValidation() {
-        this._setEventListeners(this._element)
+        this._setEventListeners()
     }
 };
