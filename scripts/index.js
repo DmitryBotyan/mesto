@@ -9,7 +9,6 @@ const popupZoom = document.querySelector('.popup_zoom');
 const buttonClosePopupEdit = popupEdit.querySelector(".popup__close-button");
 const buttonClosePopupAdd = popupAdd.querySelector(".popup__close-button");
 const buttonClosePopupZoom = popupZoom.querySelector('.popup__close-button');
-const buttonSubmitPopupAdd = popupAdd.querySelector('.popup__button');
 const nameInput = document.querySelector('.popup__name');
 const jobInput = document.querySelector('.popup__job');
 const userName = document.querySelector(".profile__title");
@@ -19,6 +18,8 @@ const placeInput = document.querySelector('.popup__place');
 const linkInput = document.querySelector('.popup__link');
 const popupEditForm = popupEdit.querySelector('.popup__container');
 const popups = document.querySelectorAll('.popup');
+const zoomImage = document.querySelector('.popup__zoom-img');
+const imageCaption = document.querySelector('.popup__img-caption');
 
 function closePopupByEscKeyPress(event) {
   if (event.key === 'Escape') {
@@ -46,17 +47,11 @@ function overlayClickCloseInitialization(popup) {
   })
 };
 
-function buttonDisable(toggleButton) {
-  const validationPopupAdd = new FormValidator(settings, popupAdd);
-  validationPopupAdd.toggleButtonDisable(toggleButton)
-}
-
 function createCard(name, link, templateSelector, handleOpenPopup) {
   const card = new Card(name, link, templateSelector, handleOpenPopup);
   const cardElement = card.generateCard();
   return cardElement;
 }
-
 
 popups.forEach((popup) => {
   overlayClickCloseInitialization(popup);
@@ -80,7 +75,7 @@ popupEditForm.addEventListener('submit', (event) => {
 });
 
 buttonAdd.addEventListener("click", (event) => {
-  buttonDisable(buttonSubmitPopupAdd)
+  validationPopupAdd.toggleButtonDisable()
   placeInput.value = '';
   linkInput.value = '';
   openPopup(popupAdd);
@@ -94,8 +89,11 @@ buttonClosePopupZoom.addEventListener("click", (event) => {
   closePopup(popupZoom);
 });
 
-const handleOpenPopup = () => {
-  openPopup(popupZoom)
+const handleOpenPopup = (name, link) => {
+    zoomImage.src = link; 
+    imageCaption.textContent = name; 
+    zoomImage.alt = name; 
+   openPopup(popupZoom)
 }
 
 initialCards.forEach((item) => {

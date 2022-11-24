@@ -36,8 +36,6 @@ export class Card {
     _setEventListeners() {
       this._likeButton = this._element.querySelector('.elements__like');
       const deleteButton = this._element.querySelector('.elements__delete');
-      const zoomImage = document.querySelector('.popup__zoom-img');
-      const imageCaption = document.querySelector('.popup__img-caption');
   
       this._likeButton.addEventListener('click', () => {
         this._letLike()
@@ -48,10 +46,7 @@ export class Card {
       })
   
       this._cardImage.addEventListener('click', () => {
-        zoomImage.src = this._link;
-        imageCaption.textContent = this._name;
-        zoomImage.alt = this._name;
-        this.handleOpenPopup()
+        this.handleOpenPopup(this._name, this._link);
       })
     }
   };
