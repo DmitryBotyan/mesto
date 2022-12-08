@@ -1,14 +1,16 @@
 import { FormValidator } from "./FormValidator.js";
 import { initialCards } from "./initialCards.js";
+import Section from "./Section.js";
 import { Card } from "./Card.js"
+import Popup from "./Popup.js";
+import PopupWithImage from "./PopupWithImage.js";
+import UserInfo from "./UserInfo.js";
+import PopupWithForm from "./PopupWithForm.js";
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const popupEdit = document.querySelector(".popup_edit");
 const popupAdd = document.querySelector('.popup_add');
 const popupZoom = document.querySelector('.popup_zoom');
-const buttonClosePopupEdit = popupEdit.querySelector(".popup__close-button");
-const buttonClosePopupAdd = popupAdd.querySelector(".popup__close-button");
-const buttonClosePopupZoom = popupZoom.querySelector('.popup__close-button');
 const nameInput = document.querySelector('.popup__name');
 const jobInput = document.querySelector('.popup__job');
 const userName = document.querySelector(".profile__title");
@@ -16,103 +18,74 @@ const userjob = document.querySelector(".profile__subtitle");
 const buttonAdd = document.querySelector('.profile__add-button');
 const placeInput = document.querySelector('.popup__place');
 const linkInput = document.querySelector('.popup__link');
-const popupEditForm = popupEdit.querySelector('.popup__container');
-const popups = document.querySelectorAll('.popup');
-const zoomImage = document.querySelector('.popup__zoom-img');
-const imageCaption = document.querySelector('.popup__img-caption');
+export const zoomImage = document.querySelector('.popup__zoom-img');
+export const imageCaption = document.querySelector('.popup__img-caption');
+const img = document.querySelector('.elements__photo')
 
-function closePopupByEscKeyPress(event) {
-  if (event.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup)
+buttonEditProfile.addEventListener('click', () => {
+  popupEditProfile.handlePopupOpen()
+  const getUserInfo = new UserInfo({userName: ".profile__title", userInfo: ".profile__subtitle"})
+  getUserInfo.getUserInfo()
+})
+
+const popupAddCard = new PopupWithForm('.popup_add', {
+  formSubmit: (item) => {
+    const addUserCard = new Section({
+      items: item,
+      renderer: (item) => {
+        const renderedUserCard = createCard({item, 
+          handleCardClick: () => {
+            popupWithImage.imageZoom(item.name, item.about)
+            popupWithImage.setEventListeners()
+          }
+        })
+        addUserCard.addItem(renderedUserCard)
+      }
+    },
+    '.elements'
+    )
+  }})
+
+popupAddCard.setEventListeners()
+
+const popupEditProfile = new PopupWithForm('.popup_edit', {
+  formSubmit: (item) => {
+    const setUserInfo = new UserInfo({userName: ".profile__title", userInfo: ".profile__subtitle"})
+    setUserInfo.setUserInfo({userName: item.name, userInfo: item.about})
   }
-};
+})
 
-export function openPopup(popup) {
-  popup.classList.add("popup_opened");
-  document.addEventListener("keydown", closePopupByEscKeyPress);
-}
+popupEditProfile.setEventListeners()
 
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", closePopupByEscKeyPress);
-}
+buttonAdd.addEventListener('click', () => {
+  popupAddCard.handlePopupOpen()
+  validationPopupAdd.toggleButtonDisable()
+})
 
-function overlayClickCloseInitialization(popup) {
-  popup.addEventListener('click', (event) => {
-    const popupContainer = event.currentTarget
-    if (event.target === popupContainer) {
-      closePopup(popup)
-    }
-  })
-};
-
-function createCard(name, link, templateSelector, handleOpenPopup) {
-  const card = new Card(name, link, templateSelector, handleOpenPopup);
+function createCard({data, handleCardClick}, templateSelector) {
+  const card = new Card({data, handleCardClick}, templateSelector);
   const cardElement = card.generateCard();
   return cardElement;
 }
 
-popups.forEach((popup) => {
-  overlayClickCloseInitialization(popup);
-});
+const popupWithImage = new PopupWithImage('.popup_zoom');
 
-buttonEditProfile.addEventListener('click', (event) => {
-  openPopup(popupEdit);
-  nameInput.value = userName.textContent; 
-  jobInput.value = userjob.textContent; 
-});
+const cardList = new Section({
+  items: initialCards,
+  renderer: (data) => {
+    const renderedCard = createCard({data, 
+      handleCardClick: () => {
+        popupWithImage.imageZoom(data.name, data.link)
+        popupWithImage.setEventListeners()
+      }
+    })
+    cardList.addItem(renderedCard)
+  }
+},
+'.elements'
+)
 
-buttonClosePopupEdit.addEventListener("click", (event) => {
-  closePopup(popupEdit);
-});
-
-popupEditForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  userName.textContent = nameInput.value;
-  userjob.textContent = jobInput.value;
-  closePopup(popupEdit);
-});
-
-buttonAdd.addEventListener("click", (event) => {
-  validationPopupAdd.toggleButtonDisable()
-  placeInput.value = '';
-  linkInput.value = '';
-  openPopup(popupAdd);
-});
-
-buttonClosePopupAdd.addEventListener("click", (event) => {
-  closePopup(popupAdd);
-});
-
-buttonClosePopupZoom.addEventListener("click", (event) => {
-  closePopup(popupZoom);
-});
-
-const handleOpenPopup = (name, link) => {
-    zoomImage.src = link; 
-    imageCaption.textContent = name; 
-    zoomImage.alt = name; 
-   openPopup(popupZoom)
-}
-
-initialCards.forEach((item) => {
-  const renderedCard = createCard(item.name, item.link, '#card', handleOpenPopup);
-  document.querySelector('.elements').append(renderedCard);
-});
-
-function addCard() {
-  const placeInput = document.querySelector('.popup__place');
-  const linkInput = document.querySelector('.popup__link');
-  const renderedCard = createCard(placeInput.value, linkInput.value, '#card', handleOpenPopup);
-  document.querySelector('.elements').prepend(renderedCard);
-};
-
-popupAdd.addEventListener('submit', (event) => {
-  event.preventDefault();
-  closePopup(popupAdd)
-  addCard()
-});
+cardList.renderer()
 
 const settings = {
     inputSelector: '.input',
