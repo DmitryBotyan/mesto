@@ -10,10 +10,10 @@ export default class PopupWithForm extends Popup {
     
     _getInputValues() {
         this._nameInput = this._inputList[0]
-        this._aboutInput = this._inputList[1]
+        this._linkInput = this._inputList[1]
         const values = {
             name: this._nameInput.value,
-            about: this._aboutInput.value
+            link: this._linkInput.value
         }
         return values
     }
@@ -29,5 +29,11 @@ export default class PopupWithForm extends Popup {
 
     handlePopupClose() {
         super.handlePopupClose()
+    }
+    handlePopupOpen() {
+        super.handlePopupOpen()
+        this._inputList.forEach((input) => {
+            input.value = ''
+        })
     }
 }
