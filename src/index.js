@@ -11,6 +11,8 @@ const buttonEditProfile = document.querySelector(".profile__edit-button");
 const popupEdit = document.querySelector(".popup_edit");
 const popupAdd = document.querySelector('.popup_add');
 const buttonAdd = document.querySelector('.profile__add-button');
+const nameInput = document.querySelector('.popup__name');
+const jobInput = document.querySelector('.popup__job')
 export const zoomImage = document.querySelector('.popup__zoom-img');
 export const imageCaption = document.querySelector('.popup__img-caption');
 
@@ -20,10 +22,18 @@ function createCard({data, handleCardClick}, templateSelector) {
   return cardElement;
 }
 
+function userInfo({userName, userInfo}, {nameSelector, infoSelector}) {
+  const getUserInfo = new UserInfo({nameSelector, infoSelector})
+  getUserInfo.setUserInfo({userName, userInfo})
+}
+
 buttonEditProfile.addEventListener('click', () => {
   popupEditProfile.handlePopupOpen()
-  const getUserInfo = new UserInfo({userName: ".profile__title", userInfo: ".profile__subtitle"})
-  getUserInfo.getUserInfo()
+  const setUserInfo = new UserInfo({nameSelector: ".profile__title", infoSelector: ".profile__subtitle"})
+  const userArray = setUserInfo.getUserInfo()
+  nameInput.value = userArray.userName;
+  jobInput.value = userArray.userInfo;
+  setUserInfo.setUserInfo({userName: userArray.userName, userInfo: userArray.userInfo})
 })
 
 const cardList = new Section({
@@ -59,8 +69,7 @@ popupAddCard.setEventListeners()
 
 const popupEditProfile = new PopupWithForm('.popup_edit', {
   formSubmit: (item) => {
-    const setUserInfo = new UserInfo({userName: ".profile__title", userInfo: ".profile__subtitle"})
-    setUserInfo.setUserInfo({userName: item.name, userInfo: item.link})
+    userInfo({userName: item.name, userInfo: item.link}, {nameSelector: ".profile__title", infoSelector: ".profile__subtitle"})
   }
 })
 

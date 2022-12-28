@@ -33,11 +33,6 @@ export default class Popup {
             this.handlePopupClose()
         })
 
-        this._element.addEventListener('submit', (event) => {
-            event.preventDefault();
-            this.handlePopupClose()
-        })
-
         this._element.addEventListener('click', () => {
             this._handleOverlayClose(event)
         })

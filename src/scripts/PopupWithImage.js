@@ -10,6 +10,7 @@ export default class PopupWithImage extends Popup {
     imageZoom(title, image) {  
         this._caption.textContent = title
         this._image.src = image
+        this._image.alt = title
         super.handlePopupOpen()
     }
 }
