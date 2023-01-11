@@ -15,6 +15,7 @@ const nameInput = document.querySelector('.popup__name');
 const jobInput = document.querySelector('.popup__job')
 export const zoomImage = document.querySelector('.popup__zoom-img');
 export const imageCaption = document.querySelector('.popup__img-caption');
+const userUnfoList = new UserInfo({nameSelector: ".profile__title", infoSelector: ".profile__subtitle"})
 
 function createCard({data, handleCardClick}, templateSelector) {
   const card = new Card({data, handleCardClick}, templateSelector);
@@ -22,18 +23,11 @@ function createCard({data, handleCardClick}, templateSelector) {
   return cardElement;
 }
 
-function userInfo({userName, userInfo}, {nameSelector, infoSelector}) {
-  const getUserInfo = new UserInfo({nameSelector, infoSelector})
-  getUserInfo.setUserInfo({userName, userInfo})
-}
-
 buttonEditProfile.addEventListener('click', () => {
   popupEditProfile.handlePopupOpen()
-  const setUserInfo = new UserInfo({nameSelector: ".profile__title", infoSelector: ".profile__subtitle"})
-  const userArray = setUserInfo.getUserInfo()
+  const userArray = userUnfoList.getUserInfo()
   nameInput.value = userArray.userName;
   jobInput.value = userArray.userInfo;
-  setUserInfo.setUserInfo({userName: userArray.userName, userInfo: userArray.userInfo})
 })
 
 const cardList = new Section({
@@ -42,7 +36,6 @@ const cardList = new Section({
     const renderedCard = createCard({data,
       handleCardClick: () => {
         popupWithImage.imageZoom(data.name, data.link)
-        popupWithImage.setEventListeners()
       }
     }, '#card')
     cardList.addItem(renderedCard)
@@ -58,7 +51,6 @@ const popupAddCard = new PopupWithForm('.popup_add', {
     const newUserCard = createCard({data, 
       handleCardClick: () => {
         popupWithImage.imageZoom(data.name, data.link)
-        popupWithImage.setEventListeners()
       }
     }, '#card')
     cardList.addItem(newUserCard)
@@ -69,7 +61,7 @@ popupAddCard.setEventListeners()
 
 const popupEditProfile = new PopupWithForm('.popup_edit', {
   formSubmit: (item) => {
-    userInfo({userName: item.name, userInfo: item.link}, {nameSelector: ".profile__title", infoSelector: ".profile__subtitle"})
+    userUnfoList.setUserInfo({userName: item.name, userInfo: item.link})
   }
 })
 
@@ -81,6 +73,8 @@ buttonAdd.addEventListener('click', () => {
 })
 
 const popupWithImage = new PopupWithImage('.popup_zoom');
+
+popupWithImage.setEventListeners()
 
 const settings = {
     inputSelector: '.input',
