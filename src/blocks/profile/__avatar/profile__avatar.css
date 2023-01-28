@@ -7,6 +7,10 @@
     height: 120px;
 }
 
+.profile__avatar:hover {
+    background-image: url(../../../images/avatar-hover.png);
+}
+
 @media screen and (max-width: 950px) {
     .profile__avatar {
         margin: 0 auto;

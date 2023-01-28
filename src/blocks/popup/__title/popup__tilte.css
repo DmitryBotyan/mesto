@@ -1,6 +1,7 @@
 .popup__tilte {
-    margin: 34px 87px 48px 36px;
+    margin: 36px 87px 48px 36px;
     padding: 0;
+    min-width: 165px;
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 900;
