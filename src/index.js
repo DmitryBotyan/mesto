@@ -28,13 +28,20 @@ function createCard({data, handleCardClick, handleLikeClick ,handleDeleteIconCli
   return cardElement;
 }
 
+const popupSubmitButton = document.querySelector('.popup__button')
+
+function loading(isLoading) {
+  if (isLoading) {
+    popupSubmitButton.textContent = 'Сохранение...'
+  }
+}
+
 buttonEditProfile.addEventListener('click', () => {
   popupEditProfile.handlePopupOpen()
   const userArray = userUnfoList.getUserInfo()
   nameInput.value = userArray.userName;
   jobInput.value = userArray.userInfo;
 })
-
 
 const popupEditProfile = new PopupWithForm('.popup_edit', {
   formSubmit: () => {
@@ -72,40 +79,6 @@ const configApi = {
 
 const api = new Api(configApi)
 
-const popupAddCard = new PopupWithForm('.popup_add', {
-  formSubmit: (data) => {
-    api.addNewCard({name: placeInput.value, link: linkInput.value}).then((data) => {
-      const newUserCard = createCard({data, 
-        handleCardClick: () => {
-          popupWithImage.imageZoom(data.name, data.link)
-        },
-        handleLikeClick: (cardId) => {
-            api.letLike(cardId)
-        },
-        handleDeleteIconClick: (cardId) => {
-          const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
-            formSubmit: (isConfirm) => {
-              if (isConfirm) {
-                api.deleteCard(cardId)
-              }
-            }
-          })
-          popupWithConfirm.handlePopupOpen()
-          popupWithConfirm.setEventListeners()
-        }
-      },'#card')
-      cardsSection.append(newUserCard)
-    })
-  }
-})
-
-popupAddCard.setEventListeners()
-
-buttonAdd.addEventListener('click', () => {
-    popupAddCard.handlePopupOpen()
-    validationPopupAdd.toggleButtonDisable()
-  })
-
 api.getCardList().then((data) => {
   const cardList = new Section({
     items: data,
@@ -137,6 +110,46 @@ api.getCardList().then((data) => {
   )
   cardList.renderer()
 })
+.catch((err) => {
+  console.log(err)
+})
+
+const popupAddCard = new PopupWithForm('.popup_add', {
+  formSubmit: (data) => {
+    api.addNewCard(data).then((data) => {
+      const newUserCard = createCard({data, 
+        handleCardClick: () => {
+          popupWithImage.imageZoom(data.name, data.link)
+        },
+        handleLikeClick: (cardId) => {
+            api.letLike(cardId)
+        },
+        handleDeleteIconClick: (cardId) => {
+          const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
+            formSubmit: (isConfirm) => {
+              if (isConfirm) {
+                api.deleteCard(cardId)
+              }
+            }
+          })
+          popupWithConfirm.handlePopupOpen()
+          popupWithConfirm.setEventListeners()
+        }
+      },'#card')
+      cardList.addItem(newUserCard)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+})
+
+popupAddCard.setEventListeners()
+
+buttonAdd.addEventListener('click', () => {
+    popupAddCard.handlePopupOpen()
+    validationPopupAdd.toggleButtonDisable()
+  })
 
 const photoEditPopup = new PopupWithForm('.popup_edit-photo', {
   formSubmit: () => {
@@ -153,4 +166,7 @@ profilePhoto.addEventListener('click', () => {
 
 api.getUserInform().then((data) => {
   userUnfoList.setUserInfo({userName: data.name, userInfo: data.about})
+})
+.catch((err) => {
+  console.log(err)
 })

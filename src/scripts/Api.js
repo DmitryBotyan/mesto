@@ -10,6 +10,9 @@ class Api {
             .then((res) => {
                 return res.json()
             })
+            .catch((err) => {
+                console.log(err)
+            })
         }
     
     addNewCard({name, link}) {
@@ -20,11 +23,17 @@ class Api {
                 name, link
             })
             })
+            .catch((err) => {
+                console.log(err)
+            })
         }
     deleteCard(cardId) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardId}`, {
             headers: this._headers,
             method: 'DELETE'
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
     letLike(cardId) {
@@ -32,11 +41,17 @@ class Api {
             headers: this._headers,
             method: 'PUT',
             })
+            .catch((err) => {
+                console.log(err)
+            })
     }
     deleteLike(cardId) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardId}/likes`, {
             headers: this._headers,
             method: 'DELETE',
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
     getUserInform() {
@@ -44,7 +59,12 @@ class Api {
             headers: this._headers
             })
             .then((res) => {
-                return res.json()
+                if (res.ok) {
+                  return res.json()  
+                }               
+            })
+            .catch((err) => {
+                console.log(err)
             })
         }
     editUserInfo({name, about}) {
@@ -55,6 +75,9 @@ class Api {
                 name, about
             })
             })
+            .catch((err) => {
+                console.log(err)
+            })
         }
     updateProfilePhoto({avatar}) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/users/me/avatar`, {
@@ -63,6 +86,9 @@ class Api {
             body: JSON.stringify({
                 avatar
             })
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
     }
