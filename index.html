@@ -28,7 +28,8 @@
                     <img src="823b0cf1b0b7e9cb7cad.svg" alt="Корзина" class="elements__delete button">
                     <img src="#" alt="" class="elements__photo" >
                     <h2 class="elements__title"></h2>
-                    <button class="elements__like button" type="button"></button>      
+                    <button class="elements__like button" type="button"></button>
+                    <span class="elements__likes-count">0</span>
                 </div>
             </template>
         </section>
@@ -64,6 +65,22 @@
             <img src="#" alt="" class="popup__zoom-img">
             <figcaption class="popup__img-caption"></figcaption>
             <button class="popup__close-button popup__close-button-zoom button" type="button"></button>
+        </form>
+    </div>
+    <div class="popup popup_confirm">
+        <form class="popup__container-confirm popup__container" name="confirm" novalidate>
+            <h2 class="popup__tilte popup__title-place">Вы уверены?</h2>
+            <button type="submit" class="popup__button button">Да</button>
+            <button class="popup__close-button button" type="button"></button>
+        </form>
+    </div>
+    <div class="popup popup_edit-photo">
+        <form class="popup__container-photo popup__container" name="edit-photo" novalidate>
+            <h2 class="popup__tilte">Обновить аватар</h2>       
+            <input type="text" class="popup__job input" placeholder="Введите ссылку" minlength="2" maxlength="200" required id="photo" name="photo-link">
+            <span class="popup__error-text_job popup__error-text" id="link-error"></span> 
+            <button type="submit" class="popup__button button">Сохранить</button>
+            <button class="popup__close-button button" type="button"></button>
         </form>
     </div>
 </body>
