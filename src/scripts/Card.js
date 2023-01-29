@@ -33,23 +33,28 @@ export class Card {
       this._likeButton.classList.add('elements__like_active')
     }
     
-    updateLikeView() {
-      const likesCount = this._element.querySelector('.elements__likes-count')
-      likesCount.textContent = this._likes.length
+    addDeleteIcon(isUserCard) {
+      const deleteButton = this._element.querySelector('.elements__delete')
+      if (isUserCard) {
+        deleteButton.classlist.remove('button_invisible')
+      }
+      else {
+        deleteButton.classlist.add('button_invisible')
+      }
     }
 
-    delete() {
-      this._element.remove()
-    }
+    updateLikeView() {
+        const likesCount = this._element.querySelector('.elements__likes-count')
+        likesCount.textContent = this._likes.length
+      }
 
     _setEventListeners() {
       this._likeButton = this._element.querySelector('.elements__like');
-      const deleteButton = this._element.querySelector('.elements__delete');
-      this.updateLikeView()
+      const deleteButton = this._element.querySelector('.elements__delete')
 
       this._likeButton.addEventListener('click', () => {
-        this.updateLikeView()
         this._letLike()
+        this.updateLikeView()
         this._handleLikeClick(this._cardId)
       })
   

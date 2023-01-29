@@ -3,6 +3,7 @@ class Api {
         this._id = id
         this._headers = headers
     }
+
     getCardList() {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards`, {
             headers: this._headers
@@ -86,6 +87,11 @@ class Api {
             body: JSON.stringify({
                 avatar
             })
+            })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json()
+                }
             })
             .catch((err) => {
                 console.log(err)

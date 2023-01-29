@@ -1,14 +1,11 @@
 .profile__avatar {
-    background-image: url(../../../images/__avatar.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
     border-radius: 50%;
     width: 120px;
     height: 120px;
 }
 
 .profile__avatar:hover {
-    background-image: url(../../../images/avatar-hover.png);
+    opacity: 0.8;
 }
 
 @media screen and (max-width: 950px) {

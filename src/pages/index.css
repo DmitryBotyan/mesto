@@ -60,3 +60,4 @@
 @import url(../blocks/popup/__button/_disabled/popup__button_disabled.css);
 @import url(../blocks/popup/__container-confirm/popup__container-confirm.css);
 @import url(../blocks/popup/__container-photo/popup__container-photo.css);
+@import url(../blocks/button/_invisible/button_invisible.css);

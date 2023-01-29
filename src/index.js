@@ -17,15 +17,16 @@ const jobInput = document.querySelector('.popup__job')
 export const zoomImage = document.querySelector('.popup__zoom-img');
 export const imageCaption = document.querySelector('.popup__img-caption');
 const userUnfoList = new UserInfo({nameSelector: ".profile__title", infoSelector: ".profile__subtitle"})
-const placeInput = document.querySelector('.popup__place')
-const linkInput = document.querySelector('.popup__link')
 const profilePhoto = document.querySelector('.profile__avatar')
 const cardsSection = document.querySelector('.elements')
+const profileName = document.querySelector('.profile__title')
+const profileInfo = document.querySelector('.profile__subtitle')
 
-function createCard({data, handleCardClick, handleLikeClick ,handleDeleteIconClick}, templateSelector) {
+
+function createCard({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector) {
   const card = new Card({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector);
   const cardElement = card.generateCard();
-  return cardElement;
+  return cardElement
 }
 
 const popupSubmitButton = document.querySelector('.popup__button')
@@ -34,9 +35,13 @@ function loading(isLoading) {
   if (isLoading) {
     popupSubmitButton.textContent = 'Сохранение...'
   }
+  else {
+    popupSubmitButton.textContent = 'Сохранить'
+  }
 }
 
 buttonEditProfile.addEventListener('click', () => {
+  loading(false)
   popupEditProfile.handlePopupOpen()
   const userArray = userUnfoList.getUserInfo()
   nameInput.value = userArray.userName;
@@ -44,8 +49,11 @@ buttonEditProfile.addEventListener('click', () => {
 })
 
 const popupEditProfile = new PopupWithForm('.popup_edit', {
-  formSubmit: () => {
-    api.editUserInfo({name: nameInput.value, about: jobInput.value})
+  formSubmit: (data) => {
+    loading(true)
+    api.editUserInfo({name: data.name, about: data.about})
+    profileName.textContent = data.name
+    profileInfo.textContent = data.about
   }
 })
 
@@ -79,6 +87,34 @@ const configApi = {
 
 const api = new Api(configApi)
 
+const popupAddCard = new PopupWithForm('.popup_add', {
+  formSubmit: (data) => {
+    const newUserCard = createCard({data, 
+      handleCardClick: () => {
+        popupWithImage.imageZoom(data.name, data.link)
+      },
+      handleLikeClick: (cardId) => {
+          api.letLike(cardId)
+      },
+      handleDeleteIconClick: (cardId) => {
+        const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
+          formSubmit: (isConfirm) => {
+            if (isConfirm) {
+              newUserCard.remove()
+              api.deleteCard(cardId)
+            }
+          }
+        })
+        popupWithConfirm.handlePopupOpen()
+        popupWithConfirm.setEventListeners()
+      }
+    },'#card')
+    api.addNewCard({name: data.name, link: data.link})
+    cardsSection.prepend(newUserCard)
+  }})
+
+popupAddCard.setEventListeners()
+
 api.getCardList().then((data) => {
   const cardList = new Section({
     items: data,
@@ -94,10 +130,12 @@ api.getCardList().then((data) => {
           const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
             formSubmit: (isConfirm) => {
               if (isConfirm) {
+                renderedCard.remove()
                 api.deleteCard(cardId)
               }
             }
           })
+          
           popupWithConfirm.handlePopupOpen()
           popupWithConfirm.setEventListeners()
         }
@@ -114,47 +152,15 @@ api.getCardList().then((data) => {
   console.log(err)
 })
 
-const popupAddCard = new PopupWithForm('.popup_add', {
-  formSubmit: (data) => {
-    api.addNewCard(data).then((data) => {
-      const newUserCard = createCard({data, 
-        handleCardClick: () => {
-          popupWithImage.imageZoom(data.name, data.link)
-        },
-        handleLikeClick: (cardId) => {
-            api.letLike(cardId)
-        },
-        handleDeleteIconClick: (cardId) => {
-          const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
-            formSubmit: (isConfirm) => {
-              if (isConfirm) {
-                api.deleteCard(cardId)
-              }
-            }
-          })
-          popupWithConfirm.handlePopupOpen()
-          popupWithConfirm.setEventListeners()
-        }
-      },'#card')
-      cardList.addItem(newUserCard)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
-})
-
-popupAddCard.setEventListeners()
-
 buttonAdd.addEventListener('click', () => {
     popupAddCard.handlePopupOpen()
     validationPopupAdd.toggleButtonDisable()
   })
 
 const photoEditPopup = new PopupWithForm('.popup_edit-photo', {
-  formSubmit: () => {
-    const photoLinkInput = document.querySelector('#photo')
-    api.updateProfilePhoto({avatar: photoLinkInput.value})
+  formSubmit: (data) => {
+    api.updateProfilePhoto(data)
+    profilePhoto.src = data.avatar
   }
 })
 
@@ -166,6 +172,7 @@ profilePhoto.addEventListener('click', () => {
 
 api.getUserInform().then((data) => {
   userUnfoList.setUserInfo({userName: data.name, userInfo: data.about})
+  profilePhoto.src = data.avatar
 })
 .catch((err) => {
   console.log(err)
