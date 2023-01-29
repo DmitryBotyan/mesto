@@ -29,7 +29,7 @@
 /*!*************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__avatar/profile__avatar.css ***!
   \*************************************************************************************************************************************************************************/
-.profile__avatar{background-image:url(74c3c0fb802dcfa83abb.jpg);background-repeat:no-repeat;background-size:cover;border-radius:50%;height:120px;width:120px}.profile__avatar:hover{background-image:url(99dd5f4b4cdfa91db491.png)}@media screen and (max-width:950px){.profile__avatar{margin:0 auto}}
+.profile__avatar{border-radius:50%;height:120px;width:120px}.profile__avatar:hover{opacity:.8}@media screen and (max-width:950px){.profile__avatar{margin:0 auto}}
 /*!*********************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__info/profile__info.css ***!
   \*********************************************************************************************************************************************************************/
@@ -202,6 +202,10 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__container-photo/popup__container-photo.css ***!
   \***************************************************************************************************************************************************************************************/
 .popup__container-photo{height:272px;width:430px}
+/*!***************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/button/_invisible/button_invisible.css ***!
+  \***************************************************************************************************************************************************************************/
+.button_invisible{visibility:hidden}
 /*!*********************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/pages/index.css ***!
   \*********************************************************************************************************************************************/
