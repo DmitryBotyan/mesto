@@ -1,14 +1,18 @@
 export class Card {
-    constructor({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector, userId) {
+    constructor({data, handleCardClick, handleLikeClick, handleDeleteLikeClick, handleDeleteIconClick}, templateSelector, userId) {
       this._name = data.name;
       this._link = data.link;
       this._likes = data.likes;
       this._userId = userId;
       this._ownerId = data.owner._id;
+      this._likesId =  this._likes.find((like) => {
+        return like._id
+      })
       this._cardId = data._id;
       this._cardElement = templateSelector;
       this.handleCardClick = handleCardClick;
       this._handleLikeClick = handleLikeClick;
+      this._handleDeleteLikeClick = handleDeleteLikeClick;
       this._handleDeleteIconClick = handleDeleteIconClick;
     }
 
@@ -30,33 +34,30 @@ export class Card {
       this._element.querySelector('.elements__title').textContent = this._name;
       this._cardImage.alt = this._name;
       this._setEventListeners();
-      this._buttonDelete.classList.add(this._userId === this._ownerId ? 'visible' : 'hidden')
-      this._likesCount.textContent = this._likes.length
-      /*console.log(this._userId)
-      console.log(this._ownerId)*/
-      return this._element;
-    }
 
-    _isLiked(isLiked) {
-      if (isLiked) {
-        this._likeButton.classList.add('elements__like_active')
-        this._likesCount.textContent = this._likes.length + 1
+      if (this._userId === this._ownerId) {
+        this._buttonDelete.classList.remove('button_invisible')
       }
-      else {
-        this._likeButton.classList.remove('elements__like_active')
-        this._likesCount.textContent = this._likes.length - 1
+      else{
+        this._buttonDelete.classList.add('button_invisible')
       }
+      this._likesCount.textContent = this._likes.length
+      
+      return this._element;
     }
 
     updateLikeView() {
       this._likesId =  this._likes.find((like) => {
-        return like._id
+        if (this._userId === like._id) {
+          this._handleDeleteLikeClick(this._cardId)
+          this._likeButton.classList.add('elements__like_active');
+          this._likesCount.textContent = this._likes.length + 1;
+        } else {
+          this._handleLikeClick(this._cardId)
+          this._likeButton.classList.remove('elements__like_active')
+          this._likesCount.textContent = this._likes.length - 1;
+        }
       })
-      if (this._ownerId = this._likesId) {
-        this._isLiked(true)
-      } else {
-        this._isLiked(false)
-      }
       }
 
     _setEventListeners() {
@@ -64,7 +65,6 @@ export class Card {
 
       this._likeButton.addEventListener('click', () => {
         this.updateLikeView()
-        this._handleLikeClick(this._cardId)
       })
   
       this._buttonDelete.addEventListener('click', () => {

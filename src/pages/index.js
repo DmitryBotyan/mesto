@@ -11,10 +11,22 @@ import Api from "../components/Api.js"
 import PopupWithConfirmation from "../components/PopupWithConfirmation";
 import { buttonEditProfile, popupEditUserInform, popupAddNewCard, buttonAdd, nameInput, jobInput, profilePhoto, profileName, profileInfo } from "../utils/constants.js"
 
+const api = new Api(configApi)
+
 const userUnfoList = new UserInfo({nameSelector: ".profile__title", infoSelector: ".profile__subtitle", photoSelector: '.profile__avatar'})
 
-function createCard({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector) {
-    const card = new Card({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector);
+let userId;
+
+
+
+api.getUserInform().then((data) => {
+  userUnfoList.setUserInfo({userName: data.name, userInfo: data.about, userPhoto: data.avatar})
+  return userId = data._id
+})
+
+
+function createCard({data, handleCardClick, handleLikeClick, handleDeleteLikeClick, handleDeleteIconClick}, templateSelector, userId) {
+    const card = new Card({data, handleCardClick, handleLikeClick, handleDeleteLikeClick, handleDeleteIconClick}, templateSelector, userId);
     const cardElement = card.generateCard();
     return cardElement
   }
@@ -52,8 +64,6 @@ const validationPopupAdd = new FormValidator(validationConfig, popupAddNewCard);
 validationPopupEdit.enableValidation();
 validationPopupAdd.enableValidation();
 
-const api = new Api(configApi)
-
 const popupAddCard = new PopupWithForm('.popup_add', {
   formSubmit: (data) => {
     const newUserCard = createCard({data, 
@@ -63,6 +73,9 @@ const popupAddCard = new PopupWithForm('.popup_add', {
       handleLikeClick: (cardId) => {
           api.letLike(cardId).catch(err => console.log(`Ошибка.....: ${err}`))
       },
+      handleDeleteLikeClick: (cardId) => {
+        api.deleteLike(cardId)
+      },
       handleDeleteIconClick: (cardId) => {
         popupWithConfirm.open()
         api.deleteCard(cardId).then((res) => {
@@ -71,7 +84,7 @@ const popupAddCard = new PopupWithForm('.popup_add', {
           }
         })
       }
-    },'#card')
+    },'#card', userId)
     api.addNewCard({name: data.name, link: data.link}).then((res) => {
       if (res.ok) {
         popupAddCard.close()
@@ -101,6 +114,9 @@ const cardList = new Section({
         handleLikeClick: (cardId) => {
           api.letLike(cardId)
         },
+        handleDeleteLikeClick: (cardId) => {
+          api.deleteLike(cardId)
+        },
         handleDeleteIconClick: (cardId) => {
           popupWithConfirm.open()
 
@@ -109,7 +125,7 @@ const cardList = new Section({
 
         }
       },
-      '#card')
+      '#card', userId)
       cardList.addItem(renderedCard)
     }
   },
@@ -144,8 +160,4 @@ photoEditPopup.setEventListeners()
 profilePhoto.addEventListener('click', () => {
   renderLoading(false, '.popup_edit-photo')
   photoEditPopup.open()
-})
-
-api.getUserInform().then((data) => {
-  userUnfoList.setUserInfo({userName: data.name, userInfo: data.about, userPhoto: data.avatar})
 })
