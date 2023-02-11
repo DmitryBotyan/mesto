@@ -17,12 +17,10 @@ const userUnfoList = new UserInfo({nameSelector: ".profile__title", infoSelector
 
 let userId;
 
-
-
 api.getUserInform().then((data) => {
   userUnfoList.setUserInfo({userName: data.name, userInfo: data.about, userPhoto: data.avatar})
   return userId = data._id
-})
+}).catch(err => console.log(`Ошибка.....: ${err}`))
 
 
 function createCard({data, handleCardClick, handleLikeClick, handleDeleteLikeClick, handleDeleteIconClick}, templateSelector, userId) {
@@ -80,7 +78,7 @@ const popupAddCard = new PopupWithForm('.popup_add', {
         popupWithConfirm.open()
         api.deleteCard(cardId).then((res) => {
           if (res.ok) {
-
+            newUserCard.remove()
           }
         })
       }
@@ -145,13 +143,10 @@ buttonAdd.addEventListener('click', () => {
 
 const photoEditPopup = new PopupWithForm('.popup_edit-photo', {
   formSubmit: (data) => {
-    api.updateProfilePhoto(data).then((res) => {
-      if (res.ok) {
-        photoEditPopup.close()
-      }
-    })
-    renderLoading(true, '.popup_edit-photo')
+    api.updateProfilePhoto(data).catch(err => console.log(`Ошибка.....: ${err}`))
     profilePhoto.src = data.avatar
+    photoEditPopup.close()
+    renderLoading(true, '.popup_edit-photo')
   }
 })
 

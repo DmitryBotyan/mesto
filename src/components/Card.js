@@ -48,12 +48,12 @@ export class Card {
 
     updateLikeView() {
       this._likesId =  this._likes.find((like) => {
-        if (this._userId === like._id) {
-          this._handleDeleteLikeClick(this._cardId)
+        if (!(this._userId === like._id)) {
+          this._handleLikeClick(this._cardId)
           this._likeButton.classList.add('elements__like_active');
           this._likesCount.textContent = this._likes.length + 1;
         } else {
-          this._handleLikeClick(this._cardId)
+          this._handleDeleteLikeClick(this._cardId)
           this._likeButton.classList.remove('elements__like_active')
           this._likesCount.textContent = this._likes.length - 1;
         }
