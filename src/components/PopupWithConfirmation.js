@@ -15,11 +15,6 @@ export default class PopupWithConfirmation extends Popup {
             event.preventDefault();
             this._isConfirm = true
             this.formSubmit(this._isConfirm)
-            this.handlePopupClose()
         })
-    }
-    
-    handlePopupOpen() {
-        super.handlePopupOpen()
     }
 }

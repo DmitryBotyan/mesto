@@ -4,15 +4,22 @@ class Api {
         this._headers = headers
     }
 
+    _getResponseData(res) {
+    if (res.ok) {
+        return res.json()
+    }
+    else {
+        return Promise.reject(`Ошибка: ${res.status}`); 
+    }
+    
+}
+    
     getCardList() {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards`, {
             headers: this._headers
             })
-            .then((res) => {
+           .then((res) => {
                 return res.json()
-            })
-            .catch((err) => {
-                console.log(err)
             })
         }
     
@@ -24,17 +31,11 @@ class Api {
                 name, link
             })
             })
-            .catch((err) => {
-                console.log(err)
-            })
         }
     deleteCard(cardId) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardId}`, {
             headers: this._headers,
             method: 'DELETE'
-            })
-            .catch((err) => {
-                console.log(err)
             })
     }
     letLike(cardId) {
@@ -42,17 +43,11 @@ class Api {
             headers: this._headers,
             method: 'PUT',
             })
-            .catch((err) => {
-                console.log(err)
-            })
     }
     deleteLike(cardId) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/cards/${cardId}/likes`, {
             headers: this._headers,
             method: 'DELETE',
-            })
-            .catch((err) => {
-                console.log(err)
             })
     }
     getUserInform() {
@@ -64,9 +59,6 @@ class Api {
                   return res.json()  
                 }               
             })
-            .catch((err) => {
-                console.log(err)
-            })
         }
     editUserInfo({name, about}) {
         return fetch(`https://mesto.nomoreparties.co/v1/${this._id}/users/me`, {
@@ -75,9 +67,6 @@ class Api {
             body: JSON.stringify({
                 name, about
             })
-            })
-            .catch((err) => {
-                console.log(err)
             })
         }
     updateProfilePhoto({avatar}) {
@@ -92,9 +81,6 @@ class Api {
                 if (res.ok) {
                     return res.json()
                 }
-            })
-            .catch((err) => {
-                console.log(err)
             })
     }
     }

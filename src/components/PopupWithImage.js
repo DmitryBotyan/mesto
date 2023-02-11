@@ -7,10 +7,10 @@ export default class PopupWithImage extends Popup {
         this._caption = document.querySelector('.popup__img-caption')
     }
 
-    imageZoom(title, image) {  
+    open(title, image) {  
         this._caption.textContent = title
         this._image.src = image
         this._image.alt = title
-        super.handlePopupOpen()
+        super.open()
     }
 }
