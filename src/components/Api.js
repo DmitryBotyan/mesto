@@ -19,8 +19,9 @@ class Api {
             headers: this._headers
             })
            .then((res) => {
-                return res.json()
+                return this._getResponseData(res)
             })
+
         }
     
     addNewCard({name, link}) {
@@ -56,7 +57,7 @@ class Api {
             })
             .then((res) => {
                 if (res.ok) {
-                  return res.json()  
+                    return this._getResponseData(res) 
                 }               
             })
         }
@@ -79,7 +80,7 @@ class Api {
             })
             .then((res) => {
                 if (res.ok) {
-                    return res.json()
+                    return this._getResponseData(res)
                 }
             })
     }

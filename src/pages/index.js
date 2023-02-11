@@ -14,10 +14,10 @@ import { buttonEditProfile, popupEditUserInform, popupAddNewCard, buttonAdd, nam
 const userUnfoList = new UserInfo({nameSelector: ".profile__title", infoSelector: ".profile__subtitle", photoSelector: '.profile__avatar'})
 
 function createCard({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector) {
-  const card = new Card({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector);
-  const cardElement = card.generateCard();
-  return cardElement
-}
+    const card = new Card({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector);
+    const cardElement = card.generateCard();
+    return cardElement
+  }
 
 buttonEditProfile.addEventListener('click', () => {
   renderLoading(false, '.popup_edit')
@@ -64,16 +64,12 @@ const popupAddCard = new PopupWithForm('.popup_add', {
           api.letLike(cardId).catch(err => console.log(`Ошибка.....: ${err}`))
       },
       handleDeleteIconClick: (cardId) => {
-        const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
-          formSubmit: (isConfirm) => {
-            if (isConfirm) {
-              newUserCard.remove()
-              api.deleteCard(cardId).catch(err => console.log(`Ошибка.....: ${err}`))
-            }
+        popupWithConfirm.open()
+        api.deleteCard(cardId).then((res) => {
+          if (res.ok) {
+
           }
         })
-        popupWithConfirm.open()
-        popupWithConfirm.setEventListeners()
       }
     },'#card')
     api.addNewCard({name: data.name, link: data.link}).then((res) => {
@@ -89,7 +85,7 @@ popupAddCard.setEventListeners()
 const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
   formSubmit: (isConfirm) => {
     if (isConfirm) {
-      popupWithConfirm.close()
+      popupWithConfirm.close();
     }
   }
 })

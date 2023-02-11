@@ -1,9 +1,10 @@
 export class Card {
-    constructor({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector) {
+    constructor({data, handleCardClick, handleLikeClick, handleDeleteIconClick}, templateSelector, userId) {
       this._name = data.name;
       this._link = data.link;
       this._likes = data.likes;
-      this._owner = data.owner;
+      this._userId = userId;
+      this._ownerId = data.owner._id;
       this._cardId = data._id;
       this._cardElement = templateSelector;
       this.handleCardClick = handleCardClick;
@@ -29,6 +30,10 @@ export class Card {
       this._element.querySelector('.elements__title').textContent = this._name;
       this._cardImage.alt = this._name;
       this._setEventListeners();
+      this._buttonDelete.classList.add(this._userId === this._ownerId ? 'visible' : 'hidden')
+      this._likesCount.textContent = this._likes.length
+      /*console.log(this._userId)
+      console.log(this._ownerId)*/
       return this._element;
     }
 
@@ -39,24 +44,7 @@ export class Card {
       }
       else {
         this._likeButton.classList.remove('elements__like_active')
-      }
-    }
-
-    _addDeleteIcon(isUserCard) {
-      if (isUserCard) {
-        this._buttonDelete.classList.remove('button_invisible')
-      }
-      else {
-        this._buttonDelete.classList.add('button_invisible')
-      }
-    }
-
-    _isUserCard() {
-      if (this._ownerId = this._cardId) {
-        this._addDeleteIcon(false)
-      }
-      else {
-        this._addDeleteIcon(true)
+        this._likesCount.textContent = this._likes.length - 1
       }
     }
 
@@ -73,8 +61,6 @@ export class Card {
 
     _setEventListeners() {
       this._likeButton = this._element.querySelector('.elements__like');
-
-      this._isUserCard()
 
       this._likeButton.addEventListener('click', () => {
         this.updateLikeView()
