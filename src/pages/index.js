@@ -83,8 +83,8 @@ const popupAddCard = new PopupWithForm('.popup_add', {
           })
         }
       },'#card', userId)
-      cardList.addItem(newUserCard)
       popupAddCard.close()
+      cardList.addItem(newUserCard)
     })
   }})
 
