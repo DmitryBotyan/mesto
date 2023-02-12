@@ -77,7 +77,8 @@ const popupAddCard = new PopupWithForm('.popup_add', {
         },
         handleDeleteIconClick: (cardId) => {
           popupWithConfirm.open()
-          api.deleteCard(cardId).then((res) => {
+          popupWithConfirm.setSubmitHandler(() => {
+            api.deleteCard(cardId);
             newUserCard.remove()
           })
         }
@@ -90,10 +91,9 @@ const popupAddCard = new PopupWithForm('.popup_add', {
 popupAddCard.setEventListeners()
 
 const popupWithConfirm = new PopupWithConfirmation('.popup_confirm', {
-  formSubmit: (isConfirm) => {
-    if (isConfirm) {
-      popupWithConfirm.close();
-    }
+  formSubmit: () => {
+    
+    popupWithConfirm.close();
   }
 })
 
@@ -113,10 +113,10 @@ const cardList = new Section({
         },
         handleDeleteIconClick: (cardId) => {
           popupWithConfirm.open()
-
-          renderedCard.remove()
-          api.deleteCard(cardId)
-
+          popupWithConfirm.setSubmitHandler(() => {
+            api.deleteCard(cardId);
+            renderedCard.remove()
+          })
         }
       },
       '#card', userId)
