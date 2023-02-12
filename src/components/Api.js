@@ -11,7 +11,6 @@ class Api {
     else {
         return Promise.reject(`Ошибка: ${res.status}`); 
     }
-    
 }
     
     getCardList() {

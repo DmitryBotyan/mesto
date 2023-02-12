@@ -20,7 +20,7 @@ let userId;
 api.getUserInform().then((data) => {
   userUnfoList.setUserInfo({userName: data.name, userInfo: data.about, userPhoto: data.avatar})
   return userId = data._id
-}).catch(err => console.log(`Ошибка.....: ${err}`))
+})
 
 
 function createCard({data, handleCardClick, handleLikeClick, handleDeleteLikeClick, handleDeleteIconClick}, templateSelector, userId) {
@@ -40,11 +40,9 @@ buttonEditProfile.addEventListener('click', () => {
 const popupEditProfile = new PopupWithForm('.popup_edit', {
   formSubmit: (data) => {
     renderLoading(true, '.popup_edit')
-    api.editUserInfo({name: data.name, about: data.about}).then((res) => {
-      if (res.ok) {
+    api.editUserInfo({name: data.name, about: data.about}).then(() => {
         popupEditProfile.close()
-      }
-    }).catch(err => console.log(`Ошибка.....: ${err}`))
+    })
     profileName.textContent = data.name
     profileInfo.textContent = data.about
   }
@@ -64,31 +62,29 @@ validationPopupAdd.enableValidation();
 
 const popupAddCard = new PopupWithForm('.popup_add', {
   formSubmit: (data) => {
-    const newUserCard = createCard({data, 
-      handleCardClick: () => {
-        popupWithImage.open(data.name, data.link)
-      },
-      handleLikeClick: (cardId) => {
-          api.letLike(cardId).catch(err => console.log(`Ошибка.....: ${err}`))
-      },
-      handleDeleteLikeClick: (cardId) => {
-        api.deleteLike(cardId)
-      },
-      handleDeleteIconClick: (cardId) => {
-        popupWithConfirm.open()
-        api.deleteCard(cardId).then((res) => {
-          if (res.ok) {
-            newUserCard.remove()
-          }
-        })
-      }
-    },'#card', userId)
     api.addNewCard({name: data.name, link: data.link}).then((res) => {
-      if (res.ok) {
-        popupAddCard.close()
-      }
-    }).catch(err => console.log(`Ошибка.....: ${err}`))
-    cardList.addItem(newUserCard)
+      return res.json()
+    }).then((data) => {
+      const newUserCard = createCard({data, 
+        handleCardClick: () => {
+          popupWithImage.open(data.name, data.link)
+        },
+        handleLikeClick: (cardId) => {
+            api.letLike(cardId)
+        },
+        handleDeleteLikeClick: (cardId) => {
+          api.deleteLike(cardId)
+        },
+        handleDeleteIconClick: (cardId) => {
+          popupWithConfirm.open()
+          api.deleteCard(cardId).then((res) => {
+            newUserCard.remove()
+          })
+        }
+      },'#card', userId)
+      cardList.addItem(newUserCard)
+      popupAddCard.close()
+    })
   }})
 
 popupAddCard.setEventListeners()
@@ -134,7 +130,7 @@ api.getCardList().then((data) => {
 
   cardList.renderItems(data)
 
-}).catch(err => console.log(`Ошибка.....: ${err}`))
+})
 
 buttonAdd.addEventListener('click', () => {
     popupAddCard.open()
@@ -143,7 +139,7 @@ buttonAdd.addEventListener('click', () => {
 
 const photoEditPopup = new PopupWithForm('.popup_edit-photo', {
   formSubmit: (data) => {
-    api.updateProfilePhoto(data).catch(err => console.log(`Ошибка.....: ${err}`))
+    api.updateProfilePhoto(data)
     profilePhoto.src = data.avatar
     photoEditPopup.close()
     renderLoading(true, '.popup_edit-photo')
