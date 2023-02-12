@@ -25,7 +25,7 @@
 /*!*******************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__container/profile__container.css ***!
   \*******************************************************************************************************************************************************************************/
-.profile__container{border-radius:50%;height:120px;width:120px;z-index:5}.profile__container:hover{background-image:url(a086f758840ae814ecde.svg);background-position:50%;background-repeat:no-repeat}
+.profile__container{border-radius:50%;height:120px;width:120px}.profile__container:hover{background-image:url(a086f758840ae814ecde.svg);background-position:50%;background-repeat:no-repeat}
 /*!********************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/profile.css ***!
   \********************************************************************************************************************************************************/
